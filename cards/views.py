@@ -57,6 +57,6 @@ class CharactersListCreate(generics.ListCreateAPIView):
     serializer_class = CharactersSerializer
 
 class CharactersRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Classes.objects.all()
+    queryset = Characters.objects.all()
     serializer_class = CharactersSerializer
 
