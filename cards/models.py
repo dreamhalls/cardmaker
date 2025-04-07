@@ -108,16 +108,36 @@ class TraitEffects(models.Model):
     def __str__(self):
         return f'{self.traits.name} - {self.effect_type}'
 
-class ClassTraits(models.Model):
-    class_level_features = models.ForeignKey(ClassLevelFeatures, on_delete=models.CASCADE)
-    traits = models.ForeignKey(Traits, on_delete=models.CASCADE)
-    unlock_level = models.IntegerField(default=1)
-
-    class Meta:
-        unique_together = ('class_level_features', 'traits')
+class Spells(models.Model):
+    rule_system = models.ForeignKey(RuleSystem, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    spell_level = models.IntegerField(default=0)
+    mp_cost = models.IntegerField(blank=True, null=True)
+    save_dc = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return f'{self.class_level_features} - {self.traits}'
+        return self.name
+
+class Items(models.Model):
+    rule_system = models.ForeignKey(RuleSystem, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    type = models.CharField(max_length=50)
+    rarity = models.IntegerField(default=1)
+    icon = models.CharField(max_length=255)
+
+
+class CharactersAttributes(models.Model):
+    characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
+    attributes = models.ForeignKey(Attributes, on_delete=models.CASCADE)
+    value = models.CharField(max_length=50)
+
+    class Meta:
+        unique_together = ('character', 'attribute')
+
+    def __str__(self):
+        return f'{self.characters.name} - {self.attributes.name}: {self.value}'
 
 class CharacterTraits(models.Model):
     SOURCE_CHOICES = [
@@ -135,35 +155,28 @@ class CharacterTraits(models.Model):
     def __str__(self):
         return f'{self.characters.name} - {self.traits.name}'
 
-class ClassSkills(models.Model):
-    classes  = models.ForeignKey(Classes, on_delete=models.CASCADE)
-    attributes = models.ForeignKey(Attributes, on_delete=models.CASCADE)
-    min_level = models.IntegerField(default=1)
+class CharacterSpell(models.Model):
+    characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
+    spell = models.ForeignKey(Spells, on_delete=models.CASCADE)
 
-    class Meta:
-        unique_together = ('classes', 'attributes')
+class CharacterItems(models.Model):
+    characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
+    items = models.ForeignKey(Items, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'{self.classes.name} - {self.attributes.name}'
-
-class Spells(models.Model):
-    rule_system = models.ForeignKey(RuleSystem, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+class CharacterResource(models.Model):
+    characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
-    spell_level = models.IntegerField(default=0)
-    mp_cost = models.IntegerField(blank=True, null=True)
-    save_dc = models.CharField(max_length=50, blank=True, null=True)
+    long_rest = models.BooleanField(default=False)
+    short_rest = models.BooleanField(default=False)
+    value = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.name
 
-class CharactersAttributes(models.Model):
-    character = models.ForeignKey(Characters, on_delete=models.CASCADE)
-    attribute = models.ForeignKey(Attributes, on_delete=models.CASCADE)
-    value = models.CharField(max_length=50)
+class CharacterNotes(models.Model):
+    TYPE_CHOICES = [
+        ('backgrounds', 'Backgrounds'),
+        ('notes', 'Notes'),
+    ]
+    characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    context = models.CharField(max_length=255)
 
-    class Meta:
-        unique_together = ('character', 'attribute')
-
-    def __str__(self):
-        return f'{self.character.name} - {self.attribute.name}: {self.value}'
