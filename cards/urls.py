@@ -10,10 +10,6 @@ urlpatterns = [
     path('characters/', CharactersListCreate.as_view()),
     path('characters/<int:pk>/', CharactersRetrieveUpdateDestroy.as_view()),
     
-    # 规则系统
-    path('rulesystems/', RuleSystemListCreate.as_view()),
-    path('rulesystems/<int:pk>/', RuleSystemRetrieveUpdateDestroy.as_view()),
-    
     # 属性管理
     path('attributes/', AttributesListCreate.as_view()),
     path('attributes/<int:pk>/', AttributesRetrieveUpdateDestroy.as_view()),

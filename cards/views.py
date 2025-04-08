@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response  # 导入 Response 类
 from .serializers import AttributesSerializer, ClassesSerializer, TraitsSerializer, ClassLevelFeaturesSerializer, CharactersSerializer, CharacterTraitsSerializer, RuleSystemSerializer
-from .models import RuleSystem, Characters, Attributes, Classes, Traits, ClassLevelFeatures, CharacterTraits
+from .models import RuleSystem, Characters, Attributes, Classes, Traits, ClassLevelFeatures, CharactersTraits
 from cardmaker.utils import CommonResponse
 from drf_spectacular.utils import extend_schema
 
@@ -311,7 +311,7 @@ class CharacterTraitsListCreate(generics.ListCreateAPIView):
     """
     角色特性列表创建视图，用于获取所有角色特性列表或创建新的角色特性。
     """
-    queryset = CharacterTraits.objects.all()
+    queryset = CharactersTraits.objects.all()
     serializer_class = CharacterTraitsSerializer
 
     def list(self, request, *args, **kwargs):
@@ -337,7 +337,7 @@ class CharacterTraitsRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView
     """
     角色特性获取、更新、删除视图，用于获取、更新或删除单个角色特性。
     """
-    queryset = CharacterTraits.objects.all()
+    queryset = CharactersTraits.objects.all()
     serializer_class = CharacterTraitsSerializer
 
     def retrieve(self, request, *args, **kwargs):

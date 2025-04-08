@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import RuleSystem, Characters, Attributes, Classes, Traits, ClassLevelFeatures, CharacterTraits
+from .models import RuleSystem, Characters, Attributes, Classes, Traits, ClassLevelFeatures, CharactersTraits
 
 class CharactersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,7 +28,7 @@ class ClassLevelFeaturesSerializer(serializers.ModelSerializer):
 
 class CharacterTraitsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CharacterTraits
+        model = CharactersTraits
         fields = '__all__'
 
 class RuleSystemSerializer(serializers.ModelSerializer):

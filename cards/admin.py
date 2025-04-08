@@ -9,4 +9,7 @@ admin.site.register(Attributes)
 admin.site.register(Classes)
 admin.site.register(Traits)
 admin.site.register(ClassLevelFeatures)
-admin.site.register(CharacterTraits)
+admin.site.register(CharactersTraits)
+
+
+

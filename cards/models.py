@@ -134,12 +134,12 @@ class CharactersAttributes(models.Model):
     value = models.CharField(max_length=50)
 
     class Meta:
-        unique_together = ('character', 'attribute')
+        unique_together = ('characters', 'attributes')
 
     def __str__(self):
         return f'{self.characters.name} - {self.attributes.name}: {self.value}'
 
-class CharacterTraits(models.Model):
+class CharactersTraits(models.Model):
     SOURCE_CHOICES = [
         ('class', 'Class'),
         ('race', 'Race'),
@@ -155,15 +155,15 @@ class CharacterTraits(models.Model):
     def __str__(self):
         return f'{self.characters.name} - {self.traits.name}'
 
-class CharacterSpell(models.Model):
+class CharactersSpell(models.Model):
     characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
     spell = models.ForeignKey(Spells, on_delete=models.CASCADE)
 
-class CharacterItems(models.Model):
+class CharactersItems(models.Model):
     characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
     items = models.ForeignKey(Items, on_delete=models.CASCADE)
 
-class CharacterResource(models.Model):
+class CharactersResource(models.Model):
     characters = models.ForeignKey(Characters, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     long_rest = models.BooleanField(default=False)
@@ -171,7 +171,7 @@ class CharacterResource(models.Model):
     value = models.IntegerField(default=0)
 
 
-class CharacterNotes(models.Model):
+class CharactersNotes(models.Model):
     TYPE_CHOICES = [
         ('backgrounds', 'Backgrounds'),
         ('notes', 'Notes'),
